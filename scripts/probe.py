@@ -40,6 +40,8 @@ REGISTER_PATHS = {
     "syncvalues.txt": "syncvalues.cgi",
 }
 LEGACY_STATUS_FRAME = "02010006000000006103"
+# info.cgi is served to root only, so it may be refused on a working controller.
+REGISTER_PATHS_REQUIRED = frozenset({"hardware.xml", "syncvalues.txt"})
 GZIP_MAGIC = b"\x1f\x8b"
 SECRET_PREFIX = "auth_"
 TIMEOUT = 20
@@ -125,7 +127,10 @@ def probe_register_api(host: str, auth: str, out: Path) -> bool:
         identity = summarise((out / "syncvalues.txt").read_bytes())
         (out / "identity.json").write_text(json.dumps(identity, indent=2))
         print(f"  controller: {identity or 'not reported'}")
-    return len(served) == len(REGISTER_PATHS)
+    if "info.xml" not in served and set(served) >= REGISTER_PATHS_REQUIRED:
+        print("  info.cgi refused this account, which root alone is let into; the")
+        print("  integration identifies the controller from its registers instead.")
+    return set(served) >= REGISTER_PATHS_REQUIRED
 
 
 def probe_legacy_api(host: str, auth: str, out: Path) -> bool:
