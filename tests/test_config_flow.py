@@ -38,6 +38,21 @@ async def test_user_flow_creates_entry_named_by_the_controller(hass, controller)
     assert result["result"].unique_id == MAC
 
 
+async def test_user_flow_works_with_an_account_refused_info_cgi(hass, aioclient_mock, controller):
+    """A read-only panel account identifies the controller from its registers."""
+    aioclient_mock.clear_requests()
+    aioclient_mock.get(f"{BASE}/info.cgi", status=403)
+    aioclient_mock.get(f"{BASE}/syncvalues.cgi", text=load_fixture("syncvalues.txt"))
+    result = await start(hass)
+
+    result = await hass.config_entries.flow.async_configure(result["flow_id"], USER_INPUT)
+
+    assert result["type"] is FlowResultType.CREATE_ENTRY
+    assert result["title"] == "Testowy"
+    # The same unique id root would have produced, so one controller stays one entry.
+    assert result["result"].unique_id == MAC
+
+
 async def test_user_flow_accepts_a_custom_name(hass, controller):
     result = await start(hass)
 

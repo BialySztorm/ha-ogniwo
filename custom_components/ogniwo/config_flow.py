@@ -69,8 +69,9 @@ class OgniwoConfigFlow(ConfigFlow, domain=DOMAIN):
             return None, {"base": "invalid_host"}
 
         try:
+            # Identifying the controller may already fall back to the registers,
+            # but the values have to be readable for the entry to be of any use.
             info = await client.async_get_info()
-            # info.cgi is served without authentication, the values are not.
             await client.async_get_snapshot()
         except OgniwoAuthError:
             return None, {"base": "invalid_auth"}

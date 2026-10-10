@@ -24,6 +24,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from custom_components.ogniwo.catalog import CURATED, active_nodes, build_specs
 from custom_components.ogniwo.parser import (
     parse_dictionary,
+    parse_identity,
     parse_info,
     parse_snapshot,
 )
@@ -58,9 +59,15 @@ def main() -> int:
     )
     args = parser.parse_args()
 
-    info = parse_info(read(args.dump / "info.xml"))
     dictionary = parse_dictionary(read(args.dump / "hardware.xml"))
     snapshot = parse_snapshot(read(args.dump / "syncvalues.txt"))
+    # A dump taken with an account refused info.cgi has no info.xml, exactly the
+    # case the integration identifies from the registers instead.
+    identity = args.dump / "info.xml"
+    info = parse_info(read(identity)) if identity.is_file() else parse_identity(snapshot)
+    if info is None:
+        print("the dump identifies no controller: no info.xml and no MAC in the registers")
+        return 1
 
     print(
         f"{info.name}: {info.hardware_type} "

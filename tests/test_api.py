@@ -65,11 +65,63 @@ async def test_damaged_gzip_response_is_a_parse_error(client, aioclient_mock):
         await client.async_get_dictionary()
 
 
-async def test_unauthorized_response_is_an_auth_error(client, aioclient_mock):
+async def test_identity_falls_back_to_registers_when_info_is_forbidden(client, aioclient_mock):
+    """Panel accounts below root are refused info.cgi but read every register."""
+    aioclient_mock.get(f"{BASE}/info.cgi", status=403)
+    aioclient_mock.get(f"{BASE}/syncvalues.cgi", text=load_fixture("syncvalues.txt"))
+
+    info = await client.async_get_info()
+
+    assert info.mac == "aabbccddeeff"
+    assert info.name == "Testowy"
+    assert info.hardware_type == "pello_D"
+    assert info.software_version == "1.1.38.58"
+    # Only info.cgi names the manufacturer, and the device registry copes with that.
+    assert info.company == ""
+
+
+async def test_identity_from_registers_matches_the_one_from_info(client, aioclient_mock):
+    """Both routes must agree, or the same controller would get two entries."""
+    aioclient_mock.get(f"{BASE}/info.cgi", text=load_fixture("info.xml"))
+    aioclient_mock.get(f"{BASE}/syncvalues.cgi", text=load_fixture("syncvalues.txt"))
+    from_info = await client.async_get_info()
+
+    aioclient_mock.clear_requests()
+    aioclient_mock.get(f"{BASE}/info.cgi", status=403)
+    aioclient_mock.get(f"{BASE}/syncvalues.cgi", text=load_fixture("syncvalues.txt"))
+    from_registers = await client.async_get_info()
+
+    assert from_registers.mac == from_info.mac
+
+
+async def test_wrong_credentials_stay_an_auth_error(client, aioclient_mock):
+    """The fallback must not turn a bad password into a working setup."""
     aioclient_mock.get(f"{BASE}/info.cgi", status=401)
+    aioclient_mock.get(f"{BASE}/syncvalues.cgi", status=401)
 
     with pytest.raises(OgniwoAuthError):
         await client.async_get_info()
+
+
+async def test_refused_info_without_a_mac_in_the_registers_is_an_auth_error(
+    client, aioclient_mock
+):
+    """Nothing identifies the controller, so the refusal is all there is to report."""
+    aioclient_mock.get(f"{BASE}/info.cgi", status=403)
+    aioclient_mock.get(
+        f"{BASE}/syncvalues.cgi",
+        text=load_fixture("syncvalues.txt").replace("eth_mac:AABBCCDDEEFF", "eth_mac:"),
+    )
+
+    with pytest.raises(OgniwoAuthError):
+        await client.async_get_info()
+
+
+async def test_unauthorized_response_is_an_auth_error(client, aioclient_mock):
+    aioclient_mock.get(f"{BASE}/config/hardware.xml", status=401)
+
+    with pytest.raises(OgniwoAuthError):
+        await client.async_get_dictionary()
 
 
 async def test_http_error_is_a_connection_error(client, aioclient_mock):

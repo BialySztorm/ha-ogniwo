@@ -55,6 +55,11 @@ afterwards:
 - **Read-only mode** — never write to the controller; settings appear as
   sensors instead of as numbers and selects.
 
+A read-only account of the panel is enough, and is the safest way to run this:
+nothing writable is created for it at all. Firmware serves `info.cgi` to root
+only, so with such an account the controller is identified from its own
+registers instead — the same MAC, hence the same entry either way.
+
 The account's access level decides what may be changed: a register the
 controller does not let that account write is shown as a sensor. Only a short,
 reviewed list of settings is writable at all — setpoints for boiler, hot water,

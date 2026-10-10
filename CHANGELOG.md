@@ -26,7 +26,8 @@ Verified against an eCoal controller, hardware 3.5, firmware 1.1.38.12, fitted
 to an Ogniwo Eko Plus+ 38 kW: 384 registers in the dictionary, 178 entities, 71
 of them enabled by default.
 
-Known limitation: the integration needs an account that may read `info.cgi`,
-which on this firmware means root. A read-only panel account gets 403 there and
-setup fails, even though every register the integration reads is available to
-it. Use root with the read-only option instead.
+A read-only panel account works: firmware serves `info.cgi` to root only, so
+the controller is identified from its own registers when that endpoint refuses
+the account. The MAC is the same one either way, so an entry stays tied to the
+same controller whichever account configured it, and the access level alone
+then decides that nothing is writable.

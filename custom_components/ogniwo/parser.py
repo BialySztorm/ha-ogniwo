@@ -28,6 +28,9 @@ SECRET_PREFIXES = ("auth_",)
 STATUS_OK = "ok"
 STATUS_UNKNOWN = "unknown"
 
+# The register holding the same MAC that info.cgi reports.
+REGISTER_MAC = "eth_mac"
+
 _DECIMAL_FORMAT = re.compile(r"^0(?:\.(0+))?$")
 # Register ids end up in request URLs and entity ids.
 _REGISTER_ID = re.compile(r"^[A-Za-z0-9_]+$")
@@ -75,6 +78,28 @@ def parse_info(text: str) -> ControllerInfo:
         company=hardware.get("company", ""),
         mac=mac,
         name=hardware.get("device_name", ""),
+    )
+
+
+def parse_identity(snapshot: Snapshot) -> ControllerInfo | None:
+    """Build the identity of the controller out of its own registers.
+
+    info.cgi is the usual source, but firmware refuses it to panel accounts
+    below root. Every fact it carries except the manufacturer sits in registers
+    those accounts do read, and the MAC is the same one, so an entry identifies
+    the same controller whichever account configured it. None means the
+    registers do not identify it either.
+    """
+    mac = (snapshot.value(MAIN_VID, REGISTER_MAC) or "").lower()
+    if not _MAC.match(mac):
+        return None
+    return ControllerInfo(
+        hardware_type=snapshot.value(MAIN_VID, "device_type") or "",
+        hardware_version=snapshot.value(MAIN_VID, "device_hard_version") or "",
+        software_version=snapshot.value(MAIN_VID, "device_soft_version") or "",
+        company="",
+        mac=mac,
+        name=snapshot.value(MAIN_VID, "device_name") or "",
     )
 
 

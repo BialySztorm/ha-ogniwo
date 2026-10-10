@@ -19,7 +19,13 @@ from .errors import (
     OgniwoWriteError,
 )
 from .models import ControllerInfo, Dictionary, Snapshot
-from .parser import parse_dictionary, parse_info, parse_snapshot, parse_write_result
+from .parser import (
+    parse_dictionary,
+    parse_identity,
+    parse_info,
+    parse_snapshot,
+    parse_write_result,
+)
 
 PATH_INFO = "info.cgi"
 PATH_DICTIONARY = "config/hardware.xml"
@@ -102,8 +108,21 @@ class OgniwoClient:
             raise OgniwoConnectionError(f"Request to {path} failed: {err}") from err
 
     async def async_get_info(self) -> ControllerInfo:
-        """Read the identity of the controller."""
-        return parse_info(await self._get(PATH_INFO))
+        """Read the identity of the controller.
+
+        Firmware serves info.cgi to root only, so an account allowed to read
+        every register still gets 403 there. When that happens the identity is
+        taken from the registers instead; if those do not identify the
+        controller either, the refusal stands and is reported as what it is.
+        """
+        try:
+            return parse_info(await self._get(PATH_INFO))
+        except OgniwoAuthError:
+            # Credentials that are simply wrong fail here too, and re-raise.
+            identity = parse_identity(await self.async_get_snapshot())
+            if identity is None:
+                raise
+            return identity
 
     async def async_get_dictionary(self) -> Dictionary:
         """Read the register dictionary."""
