@@ -1,6 +1,6 @@
 # Changelog
 
-## [0.1.0] - 2026-10-10
+## [1.0.0] - 2026-10-10
 
 First release. Derived from [ha-pello](https://github.com/mcflypl/ha-pello),
 retargeted at the eCoal.pl controllers fitted to Ogniwo boilers.
@@ -17,6 +17,9 @@ retargeted at the eCoal.pl controllers fitted to Ogniwo boilers.
   as such, instead of as a connection failure.
 - The register dictionary is unpacked when the controller gzips it without
   saying so in `Content-Encoding`, which eCoal firmware does.
+- A read-only panel account can configure the integration: firmware serves
+  `info.cgi` to root only, so the controller is identified from its own
+  registers when that endpoint refuses the account.
 - `scripts/probe.py` dumps the controller's identity, dictionary and current
   values, to work out what a given firmware exposes;
   `scripts/analyse_dump.py` runs such a dump through the catalog and reports
@@ -26,8 +29,8 @@ Verified against an eCoal controller, hardware 3.5, firmware 1.1.38.12, fitted
 to an Ogniwo Eko Plus+ 38 kW: 384 registers in the dictionary, 178 entities, 71
 of them enabled by default.
 
-A read-only panel account works: firmware serves `info.cgi` to root only, so
-the controller is identified from its own registers when that endpoint refuses
-the account. The MAC is the same one either way, so an entry stays tied to the
-same controller whichever account configured it, and the access level alone
-then decides that nothing is writable.
+A read-only account is the safest way to run this. The MAC identifying the
+entry is the same whichever account configured it, so switching an existing
+one over with Reconfigure keeps its entities, and at that access level the
+catalog creates no numbers, selects or buttons at all: 176 entities on the
+controller above, none of them writable.
