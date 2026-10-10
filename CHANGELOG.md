@@ -15,5 +15,18 @@ retargeted at the eCoal.pl controllers fitted to Ogniwo boilers.
   temperature.
 - The config flow reports a controller that only speaks the old byte protocol
   as such, instead of as a connection failure.
+- The register dictionary is unpacked when the controller gzips it without
+  saying so in `Content-Encoding`, which eCoal firmware does.
 - `scripts/probe.py` dumps the controller's identity, dictionary and current
-  values, to work out what a given firmware exposes.
+  values, to work out what a given firmware exposes;
+  `scripts/analyse_dump.py` runs such a dump through the catalog and reports
+  the entities it would produce.
+
+Verified against an eCoal controller, hardware 3.5, firmware 1.1.38.12, fitted
+to an Ogniwo Eko Plus+ 38 kW: 384 registers in the dictionary, 178 entities, 71
+of them enabled by default.
+
+Known limitation: the integration needs an account that may read `info.cgi`,
+which on this firmware means root. A read-only panel account gets 403 there and
+setup fails, even though every register the integration reads is available to
+it. Use root with the read-only option instead.

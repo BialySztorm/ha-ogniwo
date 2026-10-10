@@ -31,8 +31,8 @@ jobs:
 
       - name: Extract release notes from the changelog
         run: |
-          awk -v version="$VERSION" '
-            /^## \[/ { printing = ($0 ~ "^## \\[" version "\\]") ; next }
+          awk -v heading="## [$VERSION]" '
+            index($0, "## [") == 1 { printing = (index($0, heading) == 1); next }
             printing { print }
           ' CHANGELOG.md > release-notes.md
           test -s release-notes.md
