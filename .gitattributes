@@ -1,0 +1,5 @@
+* text=auto eol=lf
+
+# Recorded controller responses: syncvalues separates records with a bare CR
+# and the parser relies on it, so these must survive any clone byte for byte.
+tests/fixtures/* -text

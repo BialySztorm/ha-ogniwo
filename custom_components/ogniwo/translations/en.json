@@ -1,0 +1,412 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Ogniwo controller",
+        "description": "Address and account of the controller's local web panel.",
+        "data": {
+          "host": "Host",
+          "username": "Username",
+          "password": "Password",
+          "name": "Name"
+        },
+        "data_description": {
+          "name": "Device name in Home Assistant. Defaults to the name set on the controller."
+        }
+      },
+      "reauth_confirm": {
+        "title": "Sign in again",
+        "description": "The controller rejected the stored credentials.",
+        "data": {
+          "username": "Username",
+          "password": "Password"
+        }
+      },
+      "reconfigure": {
+        "title": "Connection settings",
+        "description": "Change the address or account, for example after the controller got a new IP address.",
+        "data": {
+          "host": "Host",
+          "username": "Username",
+          "password": "Password"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Could not connect to the controller.",
+      "invalid_auth": "Wrong username or password.",
+      "unknown": "The controller answered in an unexpected way.",
+      "invalid_host": "This is not a valid host name or IP address.",
+      "legacy_api": "This controller only speaks the old byte protocol, which this integration cannot drive. Run scripts/probe.py and report the dump it writes."
+    },
+    "abort": {
+      "already_configured": "This controller is already configured.",
+      "reauth_successful": "Credentials updated.",
+      "wrong_device": "A different controller answers at this address.",
+      "reconfigure_successful": "Connection settings updated."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "scan_interval": "Polling interval (seconds)",
+          "read_only": "Read-only mode"
+        },
+        "data_description": {
+          "read_only": "Never change anything on the controller; settings are shown as sensors."
+        }
+      }
+    }
+  },
+  "entity": {
+    "binary_sensor": {
+      "pump_1": {
+        "name": "Pump 1"
+      },
+      "pump_2": {
+        "name": "Pump 2"
+      },
+      "dhw_pump": {
+        "name": "Hot water pump"
+      },
+      "auxiliary_pump": {
+        "name": "Auxiliary pump"
+      },
+      "buffer_pump": {
+        "name": "Buffer pump"
+      },
+      "feeder": {
+        "name": "Feeder"
+      },
+      "fan": {
+        "name": "Fan"
+      },
+      "auxiliary_output": {
+        "name": "Auxiliary output"
+      },
+      "exchanger_cleaning": {
+        "name": "Exchanger cleaning"
+      },
+      "stoker": {
+        "name": "Stoker"
+      },
+      "igniter": {
+        "name": "Igniter"
+      },
+      "burner_cleaning": {
+        "name": "Burner cleaning"
+      },
+      "thermostat_1": {
+        "name": "Thermostat 1"
+      },
+      "thermostat_2": {
+        "name": "Thermostat 2"
+      },
+      "grate_position": {
+        "name": "Grate position"
+      },
+      "hopper_sensor": {
+        "name": "Hopper sensor"
+      },
+      "external_alarm_input": {
+        "name": "External alarm input"
+      },
+      "room_heating_demand": {
+        "name": "Room heating demand"
+      },
+      "alarm": {
+        "name": "Alarm"
+      }
+    },
+    "button": {
+      "acknowledge_alarms": {
+        "name": "Acknowledge alarms"
+      },
+      "restart": {
+        "name": "Restart"
+      }
+    },
+    "number": {
+      "setpoint": {
+        "name": "Setpoint"
+      },
+      "dhw_setpoint": {
+        "name": "Hot water setpoint"
+      },
+      "buffer_setpoint": {
+        "name": "Buffer setpoint"
+      },
+      "mixing_valve_setpoint": {
+        "name": "Mixing valve setpoint"
+      },
+      "room_temperature_low": {
+        "name": "Room temperature low"
+      },
+      "room_temperature_normal": {
+        "name": "Room temperature normal"
+      },
+      "room_temperature_comfort": {
+        "name": "Room temperature comfort"
+      }
+    },
+    "select": {
+      "season_mode": {
+        "name": "Season mode",
+        "state": {
+          "winter": "Winter",
+          "summer": "Summer",
+          "auto_summer": "Auto summer"
+        }
+      },
+      "dhw_mode": {
+        "name": "Hot water mode",
+        "state": {
+          "off": "Off",
+          "schedule": "Schedule",
+          "on": "On",
+          "plus_1h": "On for 1 hour",
+          "plus_2h": "On for 2 hours"
+        }
+      }
+    },
+    "sensor": {
+      "active_setpoint": {
+        "name": "Active setpoint"
+      },
+      "battery": {
+        "name": "Battery"
+      },
+      "buffer_bottom_temperature": {
+        "name": "Buffer bottom temperature"
+      },
+      "buffer_setpoint": {
+        "name": "Buffer setpoint"
+      },
+      "buffer_top_temperature": {
+        "name": "Buffer top temperature"
+      },
+      "burner_feeder_temperature": {
+        "name": "Burner feeder temperature"
+      },
+      "burner_power": {
+        "name": "Burner power"
+      },
+      "burner_power_stage": {
+        "name": "Burner power stage",
+        "state": {
+          "off": "Off",
+          "minimum": "Minimum",
+          "intermediate": "Intermediate",
+          "maximum": "Maximum"
+        }
+      },
+      "burner_runtime": {
+        "name": "Burner runtime"
+      },
+      "burner_status": {
+        "name": "Burner status",
+        "state": {
+          "stop": "Stopped",
+          "ignition": "Ignition",
+          "heating": "Heating",
+          "extinguishing": "Extinguishing",
+          "cleaning": "Cleaning"
+        }
+      },
+      "burner_status_detail": {
+        "name": "Burner status detail",
+        "state": {
+          "stop": "Stopped",
+          "ignition": "Ignition",
+          "fuel_priming": "Fuel priming",
+          "ignition_stabilisation": "Ignition, stabilisation",
+          "heating_stabilisation": "Heating, stabilisation",
+          "heating": "Heating",
+          "extinguishing": "Extinguishing",
+          "burner_cleaning": "Burner cleaning",
+          "positioning": "Positioning",
+          "leak_test": "Leak test",
+          "fuel_dose": "Fuel dose",
+          "igniter_warm_up": "Igniter warm-up",
+          "fuel_ignition": "Fuel ignition",
+          "fuel_top_up": "Fuel top-up",
+          "post_ignition_blow": "Blowing after ignition",
+          "ignition_failed": "Ignition failed",
+          "heating_failed_101": "Heating failed (101)",
+          "heating_failed_102": "Heating failed (102)",
+          "heating_failed_103": "Heating failed (103)",
+          "extinguished_after_priming": "Extinguished after priming (104)",
+          "extinguished_during_ignition": "Extinguished during ignition (105)",
+          "extinguished_during_stabilisation": "Extinguished during stabilisation (106)",
+          "extinguished_during_operation": "Extinguished during operation (107)"
+        }
+      },
+      "dhw_active_setpoint": {
+        "name": "Hot water active setpoint"
+      },
+      "dhw_heating_status": {
+        "name": "Hot water heating",
+        "state": {
+          "off": "Off",
+          "heating": "Heating",
+          "priority_heating": "Heating with priority"
+        }
+      },
+      "dhw_mode": {
+        "name": "Hot water mode",
+        "state": {
+          "off": "Off",
+          "schedule": "Schedule",
+          "on": "On",
+          "plus_1h": "On for 1 hour",
+          "plus_2h": "On for 2 hours"
+        }
+      },
+      "dhw_setpoint": {
+        "name": "Hot water setpoint"
+      },
+      "dhw_temperature": {
+        "name": "Hot water temperature"
+      },
+      "fan_power": {
+        "name": "Fan power"
+      },
+      "fan_speed": {
+        "name": "Fan speed"
+      },
+      "feeder_runtime": {
+        "name": "Feeder runtime since refuel"
+      },
+      "feeder_temperature": {
+        "name": "Feeder temperature"
+      },
+      "feeding": {
+        "name": "Feeding"
+      },
+      "flame": {
+        "name": "Flame"
+      },
+      "flue_gas_temperature": {
+        "name": "Flue gas temperature"
+      },
+      "fuel_flow": {
+        "name": "Fuel flow"
+      },
+      "fuel_level": {
+        "name": "Fuel level"
+      },
+      "humidity": {
+        "name": "Humidity"
+      },
+      "ignition_count": {
+        "name": "Ignitions"
+      },
+      "indoor_temperature": {
+        "name": "Indoor temperature"
+      },
+      "last_ignition_duration": {
+        "name": "Last ignition duration"
+      },
+      "last_refuel": {
+        "name": "Last refuel"
+      },
+      "mixing_valve_action": {
+        "name": "Mixing valve action",
+        "state": {
+          "stop": "Stopped",
+          "opening": "Opening",
+          "closing": "Closing"
+        }
+      },
+      "mixing_valve_active_setpoint": {
+        "name": "Mixing valve active setpoint"
+      },
+      "mixing_valve_position": {
+        "name": "Mixing valve position"
+      },
+      "mixing_valve_setpoint": {
+        "name": "Mixing valve setpoint"
+      },
+      "mixing_valve_temperature": {
+        "name": "Mixing valve temperature"
+      },
+      "next_refuel": {
+        "name": "Next refuel"
+      },
+      "operating_mode": {
+        "name": "Operating mode",
+        "state": {
+          "manual": "Manual",
+          "automatic": "Automatic",
+          "alarm": "Alarm"
+        }
+      },
+      "outdoor_temperature": {
+        "name": "Outdoor temperature"
+      },
+      "pellets_since_cleaning": {
+        "name": "Pellets since exchanger cleaning"
+      },
+      "power_limit": {
+        "name": "Power limit"
+      },
+      "pressure_difference": {
+        "name": "Pressure difference"
+      },
+      "return_temperature": {
+        "name": "Return temperature"
+      },
+      "room_active_setpoint": {
+        "name": "Room active setpoint"
+      },
+      "room_temperature": {
+        "name": "Room temperature"
+      },
+      "room_temperature_comfort": {
+        "name": "Room temperature comfort"
+      },
+      "room_temperature_low": {
+        "name": "Room temperature low"
+      },
+      "room_temperature_normal": {
+        "name": "Room temperature normal"
+      },
+      "season": {
+        "name": "Season",
+        "state": {
+          "winter": "Winter",
+          "summer": "Summer"
+        }
+      },
+      "season_mode": {
+        "name": "Season mode",
+        "state": {
+          "winter": "Winter",
+          "summer": "Summer",
+          "auto_summer": "Auto summer"
+        }
+      },
+      "setpoint": {
+        "name": "Setpoint"
+      },
+      "signal": {
+        "name": "Signal"
+      },
+      "status": {
+        "name": "Status",
+        "state": {
+          "off": "Off",
+          "standby": "Standby",
+          "heating": "Heating"
+        }
+      },
+      "temperature": {
+        "name": "Temperature"
+      },
+      "water_temperature": {
+        "name": "Water temperature"
+      }
+    }
+  }
+}

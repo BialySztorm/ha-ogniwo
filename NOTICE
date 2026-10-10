@@ -1,0 +1,12 @@
+ha-ogniwo
+Copyright 2026 the ha-ogniwo contributors
+
+This product includes software developed as part of ha-pello
+(https://github.com/mcflypl/ha-pello), Copyright the ha-pello contributors,
+licensed under the Apache License, Version 2.0.
+
+The register API client, parsers, entity model and platform code of this
+integration are derived from that project. Both talk to controllers built by
+Elektro-System (eSterownik.pl): ha-pello targets the Pello pellet burner
+controllers, this integration the eCoal.pl controllers fitted to Ogniwo
+boilers.

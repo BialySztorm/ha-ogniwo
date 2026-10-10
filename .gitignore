@@ -1,0 +1,10 @@
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+.coverage
+.idea/
+.venv/
+# Address and panel credentials of a real controller, for scripts/ only.
+.env
+# Dumps written by scripts/probe.py: a controller's own settings, not ours to commit.
+probe-*/

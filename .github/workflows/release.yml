@@ -1,0 +1,43 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Check that the tag matches the manifest version
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          manifest="$(python3 -c 'import json; print(json.load(open("custom_components/ogniwo/manifest.json"))["version"])')"
+          if [ "$version" != "$manifest" ]; then
+            echo "Tag $GITHUB_REF_NAME does not match manifest version $manifest" >&2
+            exit 1
+          fi
+          echo "VERSION=$version" >> "$GITHUB_ENV"
+
+      - name: Run tests
+        run: |
+          docker build -f Dockerfile.test -t ha-ogniwo-test .
+          docker run --rm -v "$PWD":/app -w /app ha-ogniwo-test sh -c "ruff check . && pytest -q -p no:cacheprovider"
+
+      - name: Extract release notes from the changelog
+        run: |
+          awk -v version="$VERSION" '
+            /^## \[/ { printing = ($0 ~ "^## \\[" version "\\]") ; next }
+            printing { print }
+          ' CHANGELOG.md > release-notes.md
+          test -s release-notes.md
+
+      - name: Publish the GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$GITHUB_REF_NAME" --title "$GITHUB_REF_NAME" --notes-file release-notes.md

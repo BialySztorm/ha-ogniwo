@@ -1,0 +1,412 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Sterownik Ogniwo",
+        "description": "Adres i konto lokalnego panelu sterownika.",
+        "data": {
+          "host": "Adres",
+          "username": "Login",
+          "password": "Hasło",
+          "name": "Nazwa"
+        },
+        "data_description": {
+          "name": "Nazwa urządzenia w Home Assistant. Domyślnie nazwa ustawiona w sterowniku."
+        }
+      },
+      "reauth_confirm": {
+        "title": "Zaloguj ponownie",
+        "description": "Sterownik odrzucił zapisane dane logowania.",
+        "data": {
+          "username": "Login",
+          "password": "Hasło"
+        }
+      },
+      "reconfigure": {
+        "title": "Ustawienia połączenia",
+        "description": "Zmień adres lub konto, na przykład gdy sterownik dostał nowy adres IP.",
+        "data": {
+          "host": "Adres",
+          "username": "Login",
+          "password": "Hasło"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Nie udało się połączyć ze sterownikiem.",
+      "invalid_auth": "Błędny login lub hasło.",
+      "unknown": "Sterownik odpowiedział w nieoczekiwany sposób.",
+      "invalid_host": "To nie jest poprawna nazwa hosta ani adres IP.",
+      "legacy_api": "Ten sterownik obsługuje tylko stary protokół bajtowy, którego ta integracja nie potrafi obsłużyć. Uruchom scripts/probe.py i zgłoś zrzut, który zapisze."
+    },
+    "abort": {
+      "already_configured": "Ten sterownik jest już skonfigurowany.",
+      "reauth_successful": "Dane logowania zostały zaktualizowane.",
+      "wrong_device": "Pod tym adresem odpowiada inny sterownik.",
+      "reconfigure_successful": "Ustawienia połączenia zostały zaktualizowane."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "scan_interval": "Odstęp odpytywania (sekundy)",
+          "read_only": "Tryb tylko do odczytu"
+        },
+        "data_description": {
+          "read_only": "Niczego nie zmieniaj w sterowniku; nastawy są pokazywane jako sensory."
+        }
+      }
+    }
+  },
+  "entity": {
+    "binary_sensor": {
+      "pump_1": {
+        "name": "Pompa 1"
+      },
+      "pump_2": {
+        "name": "Pompa 2"
+      },
+      "dhw_pump": {
+        "name": "Pompa CWU"
+      },
+      "auxiliary_pump": {
+        "name": "Pompa dodatkowa"
+      },
+      "buffer_pump": {
+        "name": "Pompa bufora"
+      },
+      "feeder": {
+        "name": "Podajnik"
+      },
+      "fan": {
+        "name": "Dmuchawa"
+      },
+      "auxiliary_output": {
+        "name": "Wyjście dodatkowe"
+      },
+      "exchanger_cleaning": {
+        "name": "Czyszczenie wymiennika"
+      },
+      "stoker": {
+        "name": "Sztoker"
+      },
+      "igniter": {
+        "name": "Grzałka"
+      },
+      "burner_cleaning": {
+        "name": "Czyszczenie palnika"
+      },
+      "thermostat_1": {
+        "name": "Termostat 1"
+      },
+      "thermostat_2": {
+        "name": "Termostat 2"
+      },
+      "grate_position": {
+        "name": "Położenie rusztu"
+      },
+      "hopper_sensor": {
+        "name": "Czujnik zasobnika"
+      },
+      "external_alarm_input": {
+        "name": "Wejście alarmu zewnętrznego"
+      },
+      "room_heating_demand": {
+        "name": "Zapotrzebowanie na ciepło w pomieszczeniu"
+      },
+      "alarm": {
+        "name": "Alarm"
+      }
+    },
+    "button": {
+      "acknowledge_alarms": {
+        "name": "Potwierdź alarmy"
+      },
+      "restart": {
+        "name": "Restart sterownika"
+      }
+    },
+    "number": {
+      "setpoint": {
+        "name": "Zadana kotła"
+      },
+      "dhw_setpoint": {
+        "name": "Zadana CWU"
+      },
+      "buffer_setpoint": {
+        "name": "Zadana bufora"
+      },
+      "mixing_valve_setpoint": {
+        "name": "Zadana za zaworem"
+      },
+      "room_temperature_low": {
+        "name": "Temp. pokojowa niska"
+      },
+      "room_temperature_normal": {
+        "name": "Temp. pokojowa normalna"
+      },
+      "room_temperature_comfort": {
+        "name": "Temp. pokojowa komfortowa"
+      }
+    },
+    "select": {
+      "season_mode": {
+        "name": "Tryb zima/lato",
+        "state": {
+          "winter": "Zima",
+          "summer": "Lato",
+          "auto_summer": "Auto-lato"
+        }
+      },
+      "dhw_mode": {
+        "name": "Tryb CWU",
+        "state": {
+          "off": "Wyłączone",
+          "schedule": "Programator",
+          "on": "Załączone",
+          "plus_1h": "+1 godzina",
+          "plus_2h": "+2 godziny"
+        }
+      }
+    },
+    "sensor": {
+      "active_setpoint": {
+        "name": "Aktywna zadana kotła"
+      },
+      "battery": {
+        "name": "Bateria"
+      },
+      "buffer_bottom_temperature": {
+        "name": "Temperatura bufora dół"
+      },
+      "buffer_setpoint": {
+        "name": "Zadana bufora"
+      },
+      "buffer_top_temperature": {
+        "name": "Temperatura bufora góra"
+      },
+      "burner_feeder_temperature": {
+        "name": "Temperatura podajnika palnika"
+      },
+      "burner_power": {
+        "name": "Moc palnika"
+      },
+      "burner_power_stage": {
+        "name": "Stopień mocy palnika",
+        "state": {
+          "off": "Wyłączony",
+          "minimum": "Minimalna",
+          "intermediate": "Pośrednia",
+          "maximum": "Maksymalna"
+        }
+      },
+      "burner_runtime": {
+        "name": "Czas pracy palnika"
+      },
+      "burner_status": {
+        "name": "Status palnika",
+        "state": {
+          "stop": "Stop",
+          "ignition": "Rozpalanie",
+          "heating": "Grzanie",
+          "extinguishing": "Wygaszanie",
+          "cleaning": "Czyszczenie"
+        }
+      },
+      "burner_status_detail": {
+        "name": "Status palnika szczegółowy",
+        "state": {
+          "stop": "Stop",
+          "ignition": "Rozpalanie",
+          "fuel_priming": "Podsyp paliwa",
+          "ignition_stabilisation": "Rozpalanie, stabilizacja",
+          "heating_stabilisation": "Grzanie, stabilizacja",
+          "heating": "Grzanie",
+          "extinguishing": "Wygaszanie",
+          "burner_cleaning": "Czyszczenie palnika",
+          "positioning": "Pozycjonowanie",
+          "leak_test": "Test szczelności",
+          "fuel_dose": "Podanie dawki paliwa",
+          "igniter_warm_up": "Rozgrzewanie grzałki",
+          "fuel_ignition": "Rozpalanie paliwa",
+          "fuel_top_up": "Dosyp paliwa",
+          "post_ignition_blow": "Nadmuch po rozpaleniu",
+          "ignition_failed": "Rozpalanie nieudane",
+          "heating_failed_101": "Grzanie nieudane (101)",
+          "heating_failed_102": "Grzanie nieudane (102)",
+          "heating_failed_103": "Grzanie nieudane (103)",
+          "extinguished_after_priming": "Wygaszenie po podsypie (104)",
+          "extinguished_during_ignition": "Wygaszenie w rozpalaniu (105)",
+          "extinguished_during_stabilisation": "Wygaszenie podczas stabilizacji (106)",
+          "extinguished_during_operation": "Wygaszenie podczas pracy (107)"
+        }
+      },
+      "dhw_active_setpoint": {
+        "name": "Aktywna zadana CWU"
+      },
+      "dhw_heating_status": {
+        "name": "Podgrzewanie CWU",
+        "state": {
+          "off": "Wyłączone",
+          "heating": "Podgrzewanie",
+          "priority_heating": "Podgrzewanie z priorytetem"
+        }
+      },
+      "dhw_mode": {
+        "name": "Tryb CWU",
+        "state": {
+          "off": "Wyłączone",
+          "schedule": "Programator",
+          "on": "Załączone",
+          "plus_1h": "+1 godzina",
+          "plus_2h": "+2 godziny"
+        }
+      },
+      "dhw_setpoint": {
+        "name": "Zadana CWU"
+      },
+      "dhw_temperature": {
+        "name": "Temperatura CWU"
+      },
+      "fan_power": {
+        "name": "Moc dmuchawy"
+      },
+      "fan_speed": {
+        "name": "Obroty dmuchawy"
+      },
+      "feeder_runtime": {
+        "name": "Czas pracy podajnika od zasypu"
+      },
+      "feeder_temperature": {
+        "name": "Temperatura podajnika"
+      },
+      "feeding": {
+        "name": "Podawanie"
+      },
+      "flame": {
+        "name": "Płomień"
+      },
+      "flue_gas_temperature": {
+        "name": "Temperatura spalin"
+      },
+      "fuel_flow": {
+        "name": "Strumień paliwa"
+      },
+      "fuel_level": {
+        "name": "Poziom paliwa"
+      },
+      "humidity": {
+        "name": "Wilgotność"
+      },
+      "ignition_count": {
+        "name": "Liczba rozpaleń"
+      },
+      "indoor_temperature": {
+        "name": "Temperatura wewnętrzna"
+      },
+      "last_ignition_duration": {
+        "name": "Czas ostatniego rozpalania"
+      },
+      "last_refuel": {
+        "name": "Ostatni zasyp"
+      },
+      "mixing_valve_action": {
+        "name": "Ruch zaworu 4D",
+        "state": {
+          "stop": "Stop",
+          "opening": "Otwieranie",
+          "closing": "Zamykanie"
+        }
+      },
+      "mixing_valve_active_setpoint": {
+        "name": "Aktywna zadana za zaworem"
+      },
+      "mixing_valve_position": {
+        "name": "Pozycja zaworu 4D"
+      },
+      "mixing_valve_setpoint": {
+        "name": "Zadana za zaworem"
+      },
+      "mixing_valve_temperature": {
+        "name": "Temperatura za zaworem"
+      },
+      "next_refuel": {
+        "name": "Kolejny zasyp"
+      },
+      "operating_mode": {
+        "name": "Tryb pracy",
+        "state": {
+          "manual": "Ręczny",
+          "automatic": "Automatyczny",
+          "alarm": "Alarmowy"
+        }
+      },
+      "outdoor_temperature": {
+        "name": "Temperatura zewnętrzna"
+      },
+      "pellets_since_cleaning": {
+        "name": "Pellet od czyszczenia wymiennika"
+      },
+      "power_limit": {
+        "name": "Ograniczenie mocy"
+      },
+      "pressure_difference": {
+        "name": "Różnica ciśnień"
+      },
+      "return_temperature": {
+        "name": "Temperatura powrotu"
+      },
+      "room_active_setpoint": {
+        "name": "Aktywna zadana pokojowa"
+      },
+      "room_temperature": {
+        "name": "Temperatura w pomieszczeniu"
+      },
+      "room_temperature_comfort": {
+        "name": "Temp. pokojowa komfortowa"
+      },
+      "room_temperature_low": {
+        "name": "Temp. pokojowa niska"
+      },
+      "room_temperature_normal": {
+        "name": "Temp. pokojowa normalna"
+      },
+      "season": {
+        "name": "Sezon",
+        "state": {
+          "winter": "Zima",
+          "summer": "Lato"
+        }
+      },
+      "season_mode": {
+        "name": "Tryb zima/lato",
+        "state": {
+          "winter": "Zima",
+          "summer": "Lato",
+          "auto_summer": "Auto-lato"
+        }
+      },
+      "setpoint": {
+        "name": "Zadana kotła"
+      },
+      "signal": {
+        "name": "Sygnał"
+      },
+      "status": {
+        "name": "Status kotła",
+        "state": {
+          "off": "Wyłączony",
+          "standby": "Podtrzymanie",
+          "heating": "Grzanie"
+        }
+      },
+      "temperature": {
+        "name": "Temperatura"
+      },
+      "water_temperature": {
+        "name": "Temperatura kotła"
+      }
+    }
+  }
+}

@@ -1,0 +1,108 @@
+{
+  "entity": {
+    "sensor": {
+      "status": {
+        "default": "mdi:water-boiler"
+      },
+      "burner_status": {
+        "default": "mdi:fire",
+        "state": {
+          "stop": "mdi:fire-off"
+        }
+      },
+      "burner_status_detail": {
+        "default": "mdi:fire-circle"
+      },
+      "flame": {
+        "default": "mdi:fire"
+      },
+      "fuel_level": {
+        "default": "mdi:silo"
+      },
+      "fuel_flow": {
+        "default": "mdi:grain"
+      },
+      "fan_power": {
+        "default": "mdi:fan"
+      },
+      "fan_speed": {
+        "default": "mdi:fan"
+      },
+      "feeding": {
+        "default": "mdi:screw-lag"
+      },
+      "ignition_count": {
+        "default": "mdi:counter"
+      },
+      "mixing_valve_position": {
+        "default": "mdi:valve"
+      },
+      "mixing_valve_action": {
+        "default": "mdi:valve"
+      },
+      "operating_mode": {
+        "default": "mdi:cog-play"
+      },
+      "season": {
+        "default": "mdi:sun-snowflake-variant"
+      },
+      "dhw_heating_status": {
+        "default": "mdi:water-thermometer"
+      },
+      "pellets_since_cleaning": {
+        "default": "mdi:broom"
+      },
+      "next_refuel": {
+        "default": "mdi:calendar-clock"
+      },
+      "last_refuel": {
+        "default": "mdi:calendar-check"
+      },
+      "signal": {
+        "default": "mdi:signal"
+      }
+    },
+    "binary_sensor": {
+      "feeder": {
+        "default": "mdi:screw-lag"
+      },
+      "stoker": {
+        "default": "mdi:screw-lag"
+      },
+      "fan": {
+        "default": "mdi:fan"
+      },
+      "igniter": {
+        "default": "mdi:heating-coil"
+      },
+      "burner_cleaning": {
+        "default": "mdi:broom"
+      },
+      "exchanger_cleaning": {
+        "default": "mdi:broom"
+      },
+      "thermostat_1": {
+        "default": "mdi:thermostat"
+      },
+      "thermostat_2": {
+        "default": "mdi:thermostat"
+      },
+      "hopper_sensor": {
+        "default": "mdi:silo"
+      }
+    },
+    "select": {
+      "season_mode": {
+        "default": "mdi:sun-snowflake-variant"
+      },
+      "dhw_mode": {
+        "default": "mdi:water-boiler"
+      }
+    },
+    "button": {
+      "acknowledge_alarms": {
+        "default": "mdi:bell-check"
+      }
+    }
+  }
+}

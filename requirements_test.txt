@@ -1,0 +1,5 @@
+# Pinned to the release that ships the Home Assistant version running in production.
+pytest-homeassistant-custom-component==0.13.367
+pytest-cov
+ruff
+defusedxml==0.7.1
